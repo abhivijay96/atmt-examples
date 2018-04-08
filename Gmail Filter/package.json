@@ -1,0 +1,32 @@
+{
+  "name": "template",
+  "version": "1.0.0",
+  "description": "BotScript template to generate bots",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node msft.js"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "keywords": [
+    "template",
+    "compiled",
+    "code"
+  ],
+  "author": "automaton",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.2",
+    "botbuilder": "^3.14.0",
+    "express": "^4.16.2",
+    "form-urlencoded": "^2.0.4",
+    "googleapis": "^27.0.0",
+    "machina": "^2.0.0",
+    "mongodb": "^3.0.2",
+    "restify": "^7.1.0",
+    "semaphore": "^1.1.0"
+  }
+}

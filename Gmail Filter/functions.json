@@ -1,0 +1,24 @@
+{
+	"root": [
+		"checkLoginAndMove",
+		"checkLoginAndList",
+		"checkLoginAndRemove"
+	],
+	"auth": [
+		"getSignInLink"
+	],
+	"mover": [
+		"checkMoveIntent",
+		"addRule",
+		"addFrom",
+		"addSubject",
+		"addBody"
+	],
+	"list": [
+		"listRules"
+	],
+	"remove": [
+		"showRulesList",
+		"removeRuleAt"
+	]
+}

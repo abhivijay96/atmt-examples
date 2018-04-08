@@ -1,0 +1,297 @@
+{
+    "intents": [
+        {
+            "name": "move",
+            "utterances": [],
+            "parameters": [],
+            "response": {
+                "type": "function",
+                "value": "checkLoginAndMove"
+            }
+        },
+        {
+            "name": "list",
+            "utterances": [],
+            "parameters": [],
+            "response": {
+                "type": "function",
+                "value": "checkLoginAndList"
+            }
+        },
+        {
+            "name": "remove",
+            "utterances": [],
+            "parameters": [],
+            "response": {
+                "type": "function",
+                "value": "checkLoginAndRemove"
+            }
+        },
+        {
+            "name": "hi",
+            "utterances": [],
+            "parameters": [],
+            "response": {
+                "type": "text",
+                "value": "Hey, I can create Gmail filters, you can tell me things like\\n Move mails about some site to trash. \\n move mails about bookmyshow to movies \\n move mails from bob@this.com and alice in body to this folder \\n Show my rules \\n remove rule"
+            }
+        },
+        {
+            "name": "thanks",
+            "utterances": [],
+            "parameters": [],
+            "response": {
+                "type": "text",
+                "value": "Always a pleasure to help!"
+            }
+        },
+        {
+            "name": "bye",
+            "utterances": [],
+            "parameters": [],
+            "response": {
+                "type": "text",
+                "value": "Bye, laters!"
+            }
+        }
+    ],
+    "token": "dialogFlowToken",
+    "subIntents": [
+        {
+            "name": "yes",
+            "utterances": [],
+            "parameters": []
+        },
+        {
+            "name": "no",
+            "utterances": [],
+            "parameters": []
+        },
+        {
+            "name": "subject",
+            "utterances": [],
+            "parameters": []
+        },
+        {
+            "name": "body",
+            "utterances": [],
+            "parameters": []
+        },
+        {
+            "name": "from",
+            "utterances": [],
+            "parameters": []
+        },
+        {
+            "name": "number",
+            "utterances": [],
+            "parameters": []
+        }
+    ],
+    "entities": [],
+    "microBots": [
+        {
+            "name": "auth",
+            "states": [
+                {
+                    "name": "start",
+                    "response": {
+                        "type": "function",
+                        "value": "getSignInLink"
+                    },
+                    "transitions": [
+                        {
+                            "name": "string",
+                            "reply": "Please sign in with the link previously provided"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "mover",
+            "states": [
+                {
+                    "name": "start",
+                    "response": {
+                        "type": "function",
+                        "value": "checkMoveIntent"
+                    },
+                    "transitions": [
+                        {
+                            "name": "yes",
+                            "nextState": "confirm"
+                        },
+                        {
+                            "name": "no",
+                            "reply": "Hmm ok, tell yes if you change your mind"
+                        },
+                        {
+                            "name": "subject",
+                            "nextState": "editSubject"
+                        },
+                        {
+                            "name": "from",
+                            "nextState": "editFrom"
+                        },
+                        {
+                            "name": "body",
+                            "nextState": "editBody"
+                        }
+                    ]
+                },
+                {
+                    "name": "confirm",
+                    "response": {
+                        "type": "function",
+                        "value": "addRule"
+                    },
+                    "transitions": [
+                        {
+                            "name": "string",
+                            "reply": "I have added the filter, how can I help you now"
+                        }
+                    ]
+                },
+                {
+                    "name": "editFrom",
+                    "response": {
+                        "type": "function",
+                        "value": "addFrom"
+                    },
+                    "transitions": [
+                        {
+                            "name": "no",
+                            "reply": "Hmm ok, you can tell me yes if you change your mind about that."
+                        },
+                        {
+                            "name": "yes",
+                            "nextState": "confirm"
+                        },
+                        {
+                            "name": "subject",
+                            "nextState": "editSubject"
+                        },
+                        {
+                            "name": "from",
+                            "nextState": "editFrom"
+                        },
+                        {
+                            "name": "body",
+                            "nextState": "editBody"
+                        },
+                        {
+                            "name": "string",
+                            "reply": "I have changed your from field"
+                        }
+                    ]
+                },
+                {
+                    "name": "editSubject",
+                    "response": {
+                        "type": "function",
+                        "value": "addSubject"
+                    },
+                    "transitions": [
+                        {
+                            "name": "no",
+                            "reply": "Hmm ok, you can tell me yes if you change your mind about that."
+                        },
+                        {
+                            "name": "yes",
+                            "nextState": "confirm"
+                        },
+                        {
+                            "name": "subject",
+                            "nextState": "editSubject"
+                        },
+                        {
+                            "name": "from",
+                            "nextState": "editFrom"
+                        },
+                        {
+                            "name": "body",
+                            "nextState": "editBody"
+                        },
+                        {
+                            "name": "string",
+                            "reply": "I have changed the subject part of the filter"
+                        }
+                    ]
+                },
+                {
+                    "name": "editBody",
+                    "response": {
+                        "type": "function",
+                        "value": "addBody"
+                    },
+                    "transitions": [
+                        {
+                            "name": "no",
+                            "reply": "Hmm ok, you can tell me yes if you change your mind about that."
+                        },
+                        {
+                            "name": "yes",
+                            "nextState": "confirm"
+                        },
+                        {
+                            "name": "subject",
+                            "nextState": "editSubject"
+                        },
+                        {
+                            "name": "from",
+                            "nextState": "editFrom"
+                        },
+                        {
+                            "name": "body",
+                            "nextState": "editBody"
+                        },
+                        {
+                            "name": "string",
+                            "reply": "I have changed the body part of the filter"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "list",
+            "states": [
+                {
+                    "name": "start",
+                    "response": {
+                        "type": "function",
+                        "value": "listRules"
+                    },
+                    "transitions": []
+                }
+            ]
+        },
+        {
+            "name": "remove",
+            "states": [
+                {
+                    "name": "start",
+                    "response": {
+                        "type": "function",
+                        "value": "showRulesList"
+                    },
+                    "transitions": [
+                        {
+                            "name": "number",
+                            "function": "removeRuleAt"
+                        }
+                    ]
+                },
+                {
+                    "name": "removed",
+                    "response": {
+                        "type": "text",
+                        "value": "I have removed the rule you mentioned. You can tell me to remove more rules or show or add rules"
+                    },
+                    "transitions": []
+                }
+            ]
+        }
+    ]
+}
