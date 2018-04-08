@@ -1,6 +1,5 @@
 var machina = require('machina')
 var replier = require('../Utils/reply')
-var dbUtils = require('../databaseUtils')
 var data = require('../data')
 var bots = require('../bot')
 var Logger = require('../Utils/logger')
@@ -31,7 +30,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -46,7 +46,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -93,7 +94,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -124,7 +126,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -176,7 +179,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -228,7 +232,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);

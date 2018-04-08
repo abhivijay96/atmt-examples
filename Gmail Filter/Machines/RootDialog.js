@@ -1,7 +1,6 @@
 var machina = require('machina')
 var replier = require('../Utils/reply')
 var Logger = require('../Utils/logger')
-var dbUtils = require('../databaseUtils')
 var data = require('../data')
 var bots = require('../bot')
 var impl = require('../rootImpl')
@@ -29,7 +28,11 @@ module.exports = machina.Fsm.extend({
 
             },
             string: function() {
-                replier(this.uuid, 'Hey, Sorry I did not understand');
+                replier(this.uuid, 'Hey!');
+                conversations.done(this.uuid);
+            },
+            '*': function() {
+                replier(this.uuid, 'Hey!');
                 conversations.done(this.uuid);
             },
             move: function() {
@@ -50,15 +53,12 @@ module.exports = machina.Fsm.extend({
             bye: function() {
                 this.transition("byeState")
             },
-            '*': function() {
-                replier(this.uuid, 'Hey, Sorry I did not understand');
-                conversations.done(this.uuid);
-            }
             //allTransitions
         },
         moveState: {
             _onEnter: async function() {
                 bots[this.uuid] = this;
+                this.rootIntent = "move";
                 impl.checkLoginAndMove(this.uuid, data[this.uuid]['store'], (type, value, async = false) => {
                     if (type == 'text') {
                         replier(this.uuid, value, async);
@@ -66,7 +66,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -104,6 +105,7 @@ module.exports = machina.Fsm.extend({
             },
             move: async function() {
                 Logger.log(this.uuid, this.name + " got event : move");
+                this.rootIntent = "move";
                 impl.checkLoginAndMove(this.uuid, data[this.uuid]['store'], (type, value, async = false) => {
                     if (type == 'text') {
                         replier(this.uuid, value, async);
@@ -111,7 +113,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -143,6 +146,7 @@ module.exports = machina.Fsm.extend({
         listState: {
             _onEnter: async function() {
                 bots[this.uuid] = this;
+                this.rootIntent = "list";
                 impl.checkLoginAndList(this.uuid, data[this.uuid]['store'], (type, value, async = false) => {
                     if (type == 'text') {
                         replier(this.uuid, value, async);
@@ -150,7 +154,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -192,6 +197,7 @@ module.exports = machina.Fsm.extend({
             },
             list: async function() {
                 Logger.log(this.uuid, this.name + " got event : list");
+                this.rootIntent = "list";
                 impl.checkLoginAndList(this.uuid, data[this.uuid]['store'], (type, value, async = false) => {
                     if (type == 'text') {
                         replier(this.uuid, value, async);
@@ -199,7 +205,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -227,6 +234,7 @@ module.exports = machina.Fsm.extend({
         removeState: {
             _onEnter: async function() {
                 bots[this.uuid] = this;
+                this.rootIntent = "remove";
                 impl.checkLoginAndRemove(this.uuid, data[this.uuid]['store'], (type, value, async = false) => {
                     if (type == 'text') {
                         replier(this.uuid, value, async);
@@ -234,7 +242,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
@@ -280,6 +289,7 @@ module.exports = machina.Fsm.extend({
             },
             remove: async function() {
                 Logger.log(this.uuid, this.name + " got event : remove");
+                this.rootIntent = "remove";
                 impl.checkLoginAndRemove(this.uuid, data[this.uuid]['store'], (type, value, async = false) => {
                     if (type == 'text') {
                         replier(this.uuid, value, async);
@@ -287,7 +297,8 @@ module.exports = machina.Fsm.extend({
                         var mb = require('./' + value + 'Bot');
                         bots[this.uuid] = new mb({
                             uuid: this.uuid,
-                            parent: this
+                            parent: this,
+                            rootIntent: this.rootIntent
                         });
                     } else if (type == 'transition') {
                         this.transition(value != 'string' ? value + 'State' : value);
